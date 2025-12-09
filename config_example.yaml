@@ -1,0 +1,43 @@
+# Example configuration file for training
+# You can create your own config.yaml based on this
+
+# Model configuration
+model:
+  type: frequency_prior  # or 'prompt_conditional'
+  in_channels: 3
+  num_layers: 8
+  hidden_dim: 256
+  num_classes: null  # auto-detect from dataset
+  use_frequency_prior: true
+  
+# Prompt conditioning (if use_prompt: true)
+prompt:
+  use_prompt: false
+  prompt_embed_dim: 512
+
+# Dataset configuration
+dataset:
+  name: cifar100  # cifar100, imagenet, imagenet10k, coco
+  root: ./data
+  image_size: 32  # 32 for CIFAR-100, 64/128 for others
+  max_samples: null  # null for all, or number for ImageNet-10k
+
+# Training configuration
+training:
+  batch_size: 32  # per GPU
+  num_epochs: 100
+  learning_rate: 3e-4
+  weight_decay: 1e-4
+  num_workers: 4
+  
+# Distributed training
+distributed:
+  world_size: null  # null for auto-detect
+  port: "12355"
+  
+# Logging and checkpoints
+logging:
+  log_dir: ./logs
+  checkpoint_dir: ./checkpoints
+  save_freq: 10  # save checkpoint every N epochs
+
