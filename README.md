@@ -5,7 +5,7 @@ A full trainable repository implementing autoregressive image generation with fr
 ## Authors
 
 - **Ranjith Merugu** - Roll Number: 116842918
-- **Sambhav Srivastava** - Roll Number: 117525285
+- **Sambhav Shrestha** - Roll Number: 117525285
 
 Course: CSE 590-03 (VLM)
 
@@ -374,7 +374,7 @@ If you use this code, please cite the mid-term report on "Frequency Prior for Au
 ## Authors
 
 - **Ranjith Merugu** - Roll Number: 116842918
-- **Sambhav Srivastava** - Roll Number: 117525285
+- **Sambhav Shrestha** - Roll Number: 117525285
 
 Course: CSE 590-03 (VLM)
 
