@@ -1,6 +1,7 @@
 """
 Frequency Prior for Autoregressive Image Generation
-Main architecture implementing the mid-term report method
+
+Few Block to be added, TODO: Dec 10
 """
 
 import torch
