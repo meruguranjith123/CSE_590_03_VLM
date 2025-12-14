@@ -11,9 +11,31 @@ Course: CSE 590-03 (VLM)
 
 ## Architecture Overview
 
-### Main Method: Frequency Prior Autoregressive Model
+### Main Method: Frequency Prior Codebook Model (VQ-VAE with Dual Codebooks)
 
-The core architecture implements autoregressive image generation with frequency prior:
+The core architecture implements **Vector Quantized Variational Auto Encoder (VQ-VAE)** with two separate codebooks:
+
+**Architecture Flow:**
+1. **Input Image** → Split into two encoder paths
+2. **Frequency Encoder** → **Computes FFT (Fast Fourier Transform) on image** → Extracts frequency-domain features (magnitude + phase) → **Frequency Codebook (VQ-VAE)** → Quantized frequency features
+3. **Pixel Encoder** → Extracts pixel-domain spatial features → **Pixel Codebook (VQ-VAE)** → Quantized pixel features
+4. **[Quantized Frequency + Quantized Pixel]** → **Reconstruction Decoder** → Reconstructed Image
+
+**Key Implementation Detail:**
+- The **Frequency Encoder** explicitly computes **FFT (2D Fast Fourier Transform)** on the input image to get frequency domain representation
+- FFT outputs magnitude and phase information, which are processed separately (magnitude, phase_sin, phase_cos)
+- These FFT features are then processed through convolutional layers and quantized via the Frequency Codebook (VQ-VAE)
+
+**Key Components:**
+- **Frequency Prior Codebook (VQ-VAE)**: Vector quantized codebook for frequency-domain features using EMA updates
+- **Pixel Codebook (VQ-VAE)**: Vector quantized codebook for pixel-level spatial features using EMA updates
+- **Reconstruction Decoder**: Decoder that reconstructs images by fusing both quantized codebooks
+- **Encoder Networks**: Separate encoders extract frequency and pixel features independently
+- **Vector Quantization**: EMA-based VQ (VQ-VAE style) for discrete codebook learning
+
+### Alternative: Frequency Prior Autoregressive Model
+
+An alternative implementation with autoregressive generation:
 
 - **Autoregressive Generation**: Uses masked convolutions to generate images pixel-by-pixel
 - **Frequency Prior Module**: Captures frequency domain statistics to improve generation quality
@@ -43,7 +65,8 @@ A full LLM-based architecture for text-to-image generation:
 ```
 VLM/
 ├── models/
-│   ├── frequency_prior_model.py    # Core model architectures
+│   ├── frequency_prior_model.py    # Autoregressive model architectures
+│   ├── vq_codebook_model.py        # VQ Codebook model (Frequency + Pixel codebooks + Decoder)
 │   └── llm_text_encoder.py         # LLM-based text encoder
 ├── datasets/
 │   ├── dataset_loaders.py          # Dataset loaders (CIFAR-100, ImageNet-10k, COCO)
